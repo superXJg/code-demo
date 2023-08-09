@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box{
+      border: 1px solid #ccc;
+      background: red;
+      height: 800px;
+    }
+    .child{
+      height: 100px;
+      background: yellow;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="box" id="target">
+    <div class="child mark0" id="child">0</div>
+    <div class="child mark1">1</div>
+    <div class="child mark2">2</div>
+    <div class="child mark3">3</div>
+    <div class="child mark4">4</div>
+    <div class="child mark5">5</div>
+    <div class="child mark6">6</div>
+    <div class="child mark7">7</div>
+    <div class="child mark8">8</div>
+    <div class="child mark9">9</div>
+    <div class="child mark10">10</div>
+    <div class="child mark11">11</div>
+  </div>
+</body>
+<script>
+const dom = document.getElementById('child');
+const dom2 = document.querySelectorAll('.child');
+console.log('dom2', [...dom2]);
+// dom.scrollTop = 100
+// dom2.scrollTop = 100
+console.log('dom', dom)
+const callback = entries => {
+    entries.forEach(entry => {
+        console.log('entry', entry);
+    });
+};
+// window.scrollTo(0, 100)
+// document.body.scrollTo(0, 100)
+window.onload = function() {
+  console.log('onload')
+  // window.scrollTo(0, 200)
+  const observer = new IntersectionObserver(callback);
+  observer.observe(dom);
+}
+// document.body.scrollTop = 200;
+</script>
+<script type="text/javascript" src="./test.js"></script>
+</html>

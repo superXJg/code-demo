@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>瀑布流</title>
+<style>
+  *{
+    padding: 0;
+    margin: 0;
+  }
+  .waterfall {
+    display: flex;
+    flex-wrap: wrap;
+    /* gap: 10px; */
+  }
+  .column {
+    /* flex: 1; */
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+    height: fit-content;
+  }
+  .item {
+    /* background-color: #ccc; */
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s;
+    width: fit-content;
+    /* flex: 1; */
+  }
+</style>
+</head>
+<body>
+
+<div class="waterfall" id="waterfall"></div>
+
+<script>
+  // TODO  滚动到底部加载数据
+  // TODO  onResize的时候 是否可以不要重新请求数据，基于现有的重新排序
+  // TODO  框架版本
+  const waterfall = document.getElementById('waterfall');
+  let columns = [];
+
+  // 模拟从服务器异步加载图片
+  function loadImages() {
+    let count = 0
+    for (let i = 0; i < 10; i++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      const img = new Image();
+      img.src = `https://via.placeholder.com/200x${Math.floor(Math.random() * 300) + 100}?text=Image ${i + 1}`;
+      img.onload = () => {
+        item.appendChild(img);
+        setTimeout(() => {
+        const column = getShortestColumn(count);
+        count ++ ;
+        console.log('column.id', column.id)
+        // console.log('column', column)
+        column.appendChild(item);
+        })
+
+      };
+    }
+  }
+
+  // 获取当前最短的列
+  function getShortestColumn() {
+    return columns.reduce((shortest, column) => column.clientHeight < shortest.clientHeight ? column : shortest, columns[0]);
+  }
+  const lo = (fn, delay = 500) => {
+    let timer = null;
+    return (args) => {
+      if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+        fn(args)
+      }, delay);
+    }
+
+  }
+  // 初始化列
+  function initColumns() {
+    calculateColumns();
+    const ca = lo(calculateColumns);
+    window.onresize = ca;
+  }
+
+  // 初始化列
+  function calculateColumns() {
+    waterfall.innerHTML = '';
+    // 重置
+    columns = [];
+    const screenWidth = window.innerWidth;
+    const columnCount = Math.floor(screenWidth / 220);
+    console.log('columnCount', columnCount);
+    for (let i = 0; i < columnCount; i++) {
+      const column = document.createElement('div');
+      column.id = i;
+      column.className = 'column';
+      waterfall.appendChild(column);
+      columns.push(column);
+    }
+    loadImages()
+  }
+
+  // 初始化
+  initColumns();
+  // loadImages();
+
+
+
+</script>
+
+</body>
+</html>

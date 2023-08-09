@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .warper{
+      max-height: 200px;
+      width: 100px;
+      overflow: hidden;
+    }
+    .inner{
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="warper" id="out">
+    <div class="inner" id="inside">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+  </div>
+</body>
+<script>
+  const out = document.getElementById('out');
+  const inside = document.getElementById('inside');
+  console.log(out.offsetHeight);
+  console.log(inside.offsetHeight);
+</script>
+</html>
